@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Incogni NGL
+
+How to use: [Tutorial](https://youtu.be/fGZcHMPdvpU?si=XCCu1O_X_Ml4aGoT)
 
 ## Getting Started
 
