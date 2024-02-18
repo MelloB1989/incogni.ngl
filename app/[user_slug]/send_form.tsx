@@ -32,11 +32,18 @@ export default function SendForm({slug}: {slug: string}){
 
             // Get user's device information
             const deviceInfo = navigator.userAgent;
-            const res = await axios.get(`https://wirepusher.com/send?id=${slug}&title=${"New message from Incogni!"}&message=${message+`
-            Sender's IP: ${ip}
-            Sender's Location: ${location.city}, ${location.country_name}
-            Sender's Device: ${deviceInfo}
-            `}&type=Default&image_url=${config.LOGO_WHITE}`);
+            // const res = await axios.get(`https://wirepusher.com/send?id=${slug}&title=${"New message from Incogni!"}&message=${message+`
+            // Sender's IP: ${ip}
+            // Sender's Location: ${location.city}, ${location.country_name}
+            // Sender's Device: ${deviceInfo}
+            // `}&type=Default&image_url=${config.LOGO_WHITE}&action=https://youtube.com`);
+            const r = await axios.post('/api/send', {
+                message,
+                slug,
+                ip: ip,
+                location: location.city + ", " + location.country_name,
+                agent: deviceInfo
+            });
             toast.success("Message sent successfully!");
             toast.dismiss(id);
         }catch(e){
