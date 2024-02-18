@@ -57,7 +57,7 @@ export default function SendForm({slug}: {slug: string}){
           <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Send the message!</CardTitle>
-        <CardDescription>We do not store any of the messages!</CardDescription>
+        <CardDescription>Your messages are completely anonymous!</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={(e)=>{
