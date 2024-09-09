@@ -17,7 +17,7 @@ export async function POST (request: NextRequest){
           message_timestamp: new Date().toISOString()
         }
       });
-      const res = await axios.get(`https://wirepusher.com/send?id=${data.slug}&title=${"New message from Incogni!"}&message=${data.message}&type=Default&image_url=${config.LOGO_WHITE}&action=${`https://incogni.mellob.in/message/${id.createIncogniMessage.id}`}`);
+      const res = await axios.get(`https://wirepusher.com/send?id=${data.slug}&title=${"New message from Incogni!!"}&message=${data.message}&type=Default&image_url=${config.LOGO_WHITE}&action=${`https://incogni.mellob.in/message/${id.createIncogniMessage.id}`}`);
       return NextResponse.json({success: true, id});
     } catch(e){
       return NextResponse.json({success: false, error: e});
