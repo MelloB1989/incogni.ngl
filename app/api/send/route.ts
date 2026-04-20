@@ -1,25 +1,33 @@
-import {NextRequest, NextResponse} from "next/server";
-import { createMessage } from "@/helpers/graphql";
+import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import config from "@/config";
 
-export async function POST (request: NextRequest){
-    const data = await request.json()
-    // try{
-    //   const id = await createMessage({
-    //     mgs: {
-    //       id: Math.random().toString(36).substring(7),
-    //       message: data.message,
-    //       user_slug: data.slug,
-    //       metadata_ip: data.ip,
-    //       metadata_location: data.location,
-    //       metadata_agent: data.agent,
-    //       message_timestamp: new Date().toISOString()
-    //     }
-    //   });
-      const res = await axios.get(`https://wirepusher.com/send?id=${data.slug}&title=${"New message from Incogni!!"}&message=${data.message}&type=Default&image_url=${config.LOGO_WHITE}&action=${`https://incogni.mellob.in/message/${id.createIncogniMessage.id}`}`);
-      return NextResponse.json({success: true, id});
-    } catch(e){
-      return NextResponse.json({success: false, error: e});
+export async function POST(request: NextRequest) {
+  try {
+    const data = await request.json();
+
+    if (!data?.message || !data?.slug) {
+      return NextResponse.json(
+        { success: false, error: "Invalid input" },
+        { status: 400 }
+      );
     }
+
+    const params = new URLSearchParams({
+      id: data.slug,
+      title: data.message,
+      message: JSON.stringify({ message: data.message }),
+      type: "Default",
+      image_url: config.LOGO_WHITE
+    });
+
+    await axios.get(`https://wirepusher.com/send?${params.toString()}`);
+
+    return NextResponse.json({ success: true });
+  } catch (e: any) {
+    return NextResponse.json(
+      { success: false, error: e?.message || "Unknown error" },
+      { status: 500 }
+    );
+  }
 }
