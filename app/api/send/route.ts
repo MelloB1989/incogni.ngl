@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     const params = new URLSearchParams({
       id: data.slug,
       title: data.message,
-      message: JSON.stringify({ message: data.message }),
+      message: JSON.stringify({ data }),
       type: "Default",
       image_url: config.LOGO_WHITE
     });
